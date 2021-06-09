@@ -5,13 +5,15 @@ import {
   userSelector,
   fetchUserBytoken,
   clearState,
-  sendActivationMail
+  sendActivationMail,
+  deleteAll
 } from './UserSlice'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { Table } from 'reactstrap'
 import toast from 'react-hot-toast'
 import LeftMenu from './LeftMenu'
+import FileUpload from './FileUpload'
 
 const Dashboard = () => {
   const history = useHistory()
@@ -39,7 +41,7 @@ const Dashboard = () => {
       history.push('/update')
     }
     if (IsSend) {
-      toast.success('Messages Sended')
+      toast.success('Mail sent')
     }
   }, [IsSend, IsOldpass, isError])
   const onLogOut = () => {
@@ -48,6 +50,9 @@ const Dashboard = () => {
   }
   const onBulkSubmit = () => {
     dispatch(sendActivationMail({ url: 'http://localhost:3001' }))
+  }
+  const ondeleteAll = () => {
+    dispatch(deleteAll())
   }
   var divStyle = {
     marginRight: '10px',
@@ -89,11 +94,21 @@ const Dashboard = () => {
               backgroundColor: '#eee'
             }}
           >
+            <div className='float-left'>
+              <FileUpload />
+            </div>
+
             <button
               className='btn btn-primary py-2 px-4 rounded float-right'
               onClick={onBulkSubmit}
             >
-              Send Activation Link
+              Send Activation Mail
+            </button>
+            <button
+              className='btn btn-danger py-2 px-4 rounded float-right'
+              onClick={ondeleteAll}
+            >
+              Delete All Students
             </button>
             <br />
             <h3 style={{ marginTop: '30px' }}>Student List</h3>

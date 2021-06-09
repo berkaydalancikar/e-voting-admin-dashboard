@@ -170,6 +170,32 @@ export const NewDates = createAsyncThunk(
   }
 )
 
+export const deleteAll = createAsyncThunk(
+  'users/deleteAllStudents',
+  async thunkAPI => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:9002/students/deleteAll', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + token
+        }
+      })
+      let data = await response.json()
+      console.log('data', data)
+      if (response.status === 200) {
+        return { ...data }
+      } else {
+        return thunkAPI.rejectWithValue(data)
+      }
+    } catch (e) {
+      console.log('Error', e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data)
+    }
+  }
+)
+
 export const sendActivationMail = createAsyncThunk(
   'users/sendActivationMail',
   async ({ url }, thunkAPI) => {
@@ -629,6 +655,21 @@ export const userSlice = createSlice({
       state.isFetching = true
     },
     [sendActivationMail.rejected]: (state, { payload }) => {
+      state.isFetching = false
+      state.isError = true
+      state.errorMessage = payload
+    },
+    // but
+    [deleteAll.fulfilled]: (state, { payload }) => {
+      console.log('payload', payload)
+      state.isFetching = false
+      state.isSuccess = true
+      state.IsSend = true
+    },
+    [deleteAll.pending]: state => {
+      state.isFetching = true
+    },
+    [deleteAll.rejected]: (state, { payload }) => {
       state.isFetching = false
       state.isError = true
       state.errorMessage = payload

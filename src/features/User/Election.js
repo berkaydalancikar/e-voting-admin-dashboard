@@ -208,7 +208,7 @@ const Candidate = () => {
                         }
                         style={{ cursor: 'pointer' }}
                       >
-                        <td>{d.studentId}</td>
+                        <td>{d.student.studentId}</td>
                         <td>
                           {d.student.name} {d.student.surname}
                         </td>

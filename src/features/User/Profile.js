@@ -113,12 +113,20 @@ const Update = () => {
                     <input
                       id='oldPassword'
                       name='oldPassword'
+                      type='password'
                       ref={register({ required: true })}
-                      type='text'
                       autoComplete='oldPassword'
                       required
                       className='form-control'
                     />
+                    <div className='input-group-append'>
+                      <span
+                        className='input-group-text'
+                        style={{ borderRadius: '0' }}
+                      >
+                        <i className='las la-user-secret'></i>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className='form-group' style={{ textAlign: 'left' }}>
@@ -181,7 +189,7 @@ const Update = () => {
                       ></path>
                     </svg>
                   ) : null}
-                  Submit
+                  Change Password
                 </button>
               </div>
             </form>
